@@ -5,13 +5,15 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -22,6 +24,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'google_id',
+        'google_token',
+        'google_refresh_token',
     ];
 
     /**
@@ -44,6 +49,40 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
+            'last_login_at' => 'datetime',
         ];
+    }
+
+    /**
+     * Get all OAuth providers for this user.
+     */
+    public function oauthProviders(): HasMany
+    {
+        return $this->hasMany(OAuthProvider::class);
+    }
+
+    /**
+     * Get all OAuth tokens (refresh tokens) for this user.
+     */
+    public function oauthTokens(): HasMany
+    {
+        return $this->hasMany(OAuthToken::class);
+    }
+
+    /**
+     * Find or create user by Google OAuth data.
+     */
+    public static function findOrCreateFromGoogle(array $googleData): self
+    {
+        return self::firstOrCreate(
+            ['email' => $googleData['email']],
+            [
+                'name' => $googleData['name'],
+                'profile_picture_url' => $googleData['picture'] ?? null,
+                'email_verified_at' => now(),
+                'is_active' => true,
+            ]
+        );
     }
 }
