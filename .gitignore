@@ -1,0 +1,87 @@
+# .gitignore for CoffeePOS Next.js + Laravel project
+
+# Claude Code settings and configurations (user specifically requested)
+.claude/
+.claude/*
+
+# Dependencies and vendor directories
+node_modules/
+vendor/
+.php_cs.cache
+composer.lock
+.yarnrc
+pnpm-lock.yaml
+
+# Environment files
+.env
+.env.local
+.env.production
+.env.testing
+.env.*.local
+
+# Build and dist directories
+build/
+dist/
+public/
+storage/
+
+# Logs and temporary files
+storage/logs/
+storage/framework/cache/data/
+storage/framework/sessions/
+storage/framework/testing/
+
+# Database files and SQLite
+storage/database.sqlite
+*.sqlite
+
+# Editor/IDE files
+.vscode/
+.vscode/*
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS generated files
+.DS_Store
+.DS_Store?
+Thumbs.db
+
+# PHP/Composer cache and artifacts
+.phpunit.xml
+.php-cs-fixer.cache
+.phpdoc.cache
+
+# Next.js build artifacts
+.next/
+.next/cache/
+.next/static/
+
+# Laravel specific
+bootstrap/cache/
+
+# Miscellaneous
+*.log
+*.tmp
+*.bak
+*.old
+
+# Files in the root directory that shouldn't be tracked
+*.md
+!README.md
+
+# Local test directories
+tests/
+migrations/
+
+# API documentation
+swagger.json
+
+# Package managers
+cargo.lock
+
+# Security files
+.security
+
+# Local development files
+.local
