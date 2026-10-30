@@ -21,6 +21,9 @@ Route::prefix('auth')->group(function () {
     // Traditional email/password authentication
     Route::post('login', [AuthController::class, 'login']);
     Route::post('signup', [AuthController::class, 'signup']);
+
+    // Google OAuth
+    Route::get('google-url', [AuthController::class, 'googleAuthUrl']);
     Route::post('google-callback', [AuthController::class, 'googleCallback']);
 
     // Token refresh (public but requires valid refresh token)
